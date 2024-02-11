@@ -12,7 +12,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func CreateUser(username string, password string) error {
+func CreateUser(username string, password string, displayname string) error {
+	if len(displayname) == 0 {
+		return errors.New("Display name cannot be empty")
+	}
+
 	if len(username) == 0 {
 		return errors.New("Username cannot be empty")
 	}
@@ -28,11 +32,16 @@ func CreateUser(username string, password string) error {
 		return err
 	}
 	db := connection.GetDatabase()
-	_, err = db.Collection("users").InsertOne(context.TODO(), apitypes.User{Username: username, PasswordHash: hash})
+	_, err = db.Collection("users").InsertOne(context.TODO(), apitypes.User{
+		Username:     username,
+		PasswordHash: hash,
+		DisplayName:  displayname,
+		Balance:      100.0,
+	})
 	if err != nil {
 		return err
 	}
-	cart := Cart{Username: username, Items: make([]apitypes.Buyable, 0)}
+	cart := apitypes.Cart{Username: username, Items: make([]apitypes.IBuyable, 0)}
 	db.Collection("carts").InsertOne(context.TODO(), cart)
 
 	return nil
@@ -42,7 +51,7 @@ func Login(username string, password string) (string, int, error) {
 	username = strings.ToLower(username)
 	db := connection.GetDatabase()
 	result := db.Collection("users").FindOne(context.TODO(), bson.D{{"_id", username}})
-	var user apitypes.User
+	var user apitypes.LoginUserTemp
 	err := result.Decode(&user)
 	if err != nil {
 		return "", http.StatusInternalServerError, err
@@ -65,10 +74,24 @@ func GetLoggednInUsersData(token string) (apitypes.UserData, int, error) {
 	if err != nil {
 		return apitypes.UserData{}, status, err
 	}
+	cart, _, _ := GetLoggedInUsersCart(token)
+
 	userData := apitypes.UserData{
-		Username:  user.Username,
-		Balance:   user.Balance,
-		CartCount: 0,
+		DisplayName: user.DisplayName,
+		Username:    user.Username,
+		Balance:     user.Balance,
+		CartCount:   uint16(len(cart.Items)),
 	}
 	return userData, http.StatusOK, nil
+}
+
+func GetUserFromUsername(username string) (apitypes.User, int, error) {
+	db := connection.GetDatabase()
+	result := db.Collection("users").FindOne(context.TODO(), bson.D{{"_id", username}})
+	var user apitypes.User
+	err := result.Decode(&user)
+	if err != nil {
+		return user, http.StatusNotFound, nil
+	}
+	return user, http.StatusOK, nil
 }

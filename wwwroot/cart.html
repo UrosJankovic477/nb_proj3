@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>NBGUI</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <script type="module">
+    import { h, render} from '/js/preact.js';
+    import htm from '/js/htm.js'
+    import {Album} from '/components/AlbumComponent.js';
+    import {Header} from '/components/HeaderComponent.js';
+    import {AlbumDisplay} from '/components/AlbumDisplayComponent.js'
+    import {Search} from '/components/SearchComponent.js'
+    const html = htm.bind(h)
+    async function buy(e) {
+      let token = document.cookie.replace("token=", "")
+
+      var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+       
+        var raw = JSON.stringify(token);
+       
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+
+        let response = await fetch("/api/checkout", requestOptions)
+        let result = await response.json()
+      }
+
+    async function removeFromCart(e,uuid) {
+
+      if(e.button !== 2) {return}
+      e.preventDefault()
+      let token = document.cookie.replace("token=", "")
+
+      var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+       
+        var raw = JSON.stringify(token);
+       
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+
+        let response = await fetch("/api/removeItemFromCart", requestOptions)
+    }
+
+    async function emptyCart(e) {
+      let token = document.cookie.replace("token=", "")
+      var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+       
+        var raw = JSON.stringify(token);
+       
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+
+        let response = await fetch("/api/emptyCart", requestOptions)
+        let result = await response.json()
+    }
+    
+    function App (props) {
+      return html `<${Header} requirelogin/>
+      <${AlbumDisplay} clickaction=${removeFromCart}/>
+      
+
+
+      <button onClick="${(e) => buy(e)}">Buy All</button>
+      <button onClick="${(e) => emptyCart(e)}">Empty cart</button>
+      `
+   
+    }
+  
+    render(html`<${App}/>`, document.body);
+  </script>
+</html>
+

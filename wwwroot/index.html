@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>NBGUI</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <script type="module">
+    import { h, render} from '/js/preact.js';
+    import htm from '/js/htm.js'
+    import {Album} from '/components/AlbumComponent.js';
+    import {Header} from '/components/HeaderComponent.js';
+    import {AlbumDisplay} from '/components/AlbumDisplayComponent.js'
+    import {Search} from '/components/SearchComponent.js'
+    const html = htm.bind(h)
+    async function addToCart(e, uuid) {
+      let token = document.cookie.replace("token=", "");
+      var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+       
+        var raw = JSON.stringify({
+          Token: token,
+          ItemUUID: uuid,
+        });
+       
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+ 
+        let response = await fetch("/api/addAlbumToCart", requestOptions)
+    }
+  
+    function App (props) {
+      return html `<${Header}/>
+      <${Search} clickaction=${addToCart}/>
+      `
+   
+    }
+  
+    render(html`<${App}/>`, document.body);
+  </script>
+</html>
+

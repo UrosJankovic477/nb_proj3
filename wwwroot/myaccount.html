@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>NBGUI</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <script type="module">
+    import { h, render} from '/js/preact.js';
+    import { useState} from '/js/hooks.js';
+    import htm from '/js/htm.js'
+    import {Album} from '/components/AlbumComponent.js';
+    import {Header} from '/components/HeaderComponent.js';
+    import {AlbumDisplay} from '/components/AlbumDisplayComponent.js'
+    import {Search} from '/components/SearchComponent.js'
+    const html = htm.bind(h)
+
+    
+    function App (props) {
+      const [clicked, setClicked] = useState(false)
+      return html `<${Header} requirelogin/>
+      <div class="storeView">
+        <div class="smallerDiv">
+          <${Search}/>
+          </div>
+        <div class="biggerDiv">
+          <div class="tabselect">
+      <button class="tab_button" onClick="${(e) => setClicked("creations")}">Creations</button>
+  
+        </div>
+      <${AlbumDisplay} source="${clicked}"/>
+      </div>
+  
+      </div>
+     
+      `
+   
+    }
+  
+    render(html`<${App}/>`, document.body);
+  </script>
+</html>
+

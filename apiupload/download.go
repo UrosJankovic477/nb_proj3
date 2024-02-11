@@ -15,7 +15,8 @@ func DownloadImage(content_id string) (io.Reader, error) {
 	if err != nil {
 		panic(err)
 	}
-	stream, err := bucket.OpenDownloadStream(content_id)
+	id := findByFilename(content_id, "images")
+	stream, err := bucket.OpenDownloadStream(id)
 	return stream, err
 }
 
@@ -27,6 +28,7 @@ func DownloadAudio(content_id string) (io.Reader, error) {
 	if err != nil {
 		panic(err)
 	}
-	stream, err := bucket.OpenDownloadStream(content_id)
+	id := findByFilename(content_id, "audio")
+	stream, err := bucket.OpenDownloadStream(id)
 	return stream, err
 }

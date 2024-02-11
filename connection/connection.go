@@ -27,6 +27,7 @@ func Init() error {
 	}
 
 	db = connection.Database("nb_proj3")
+
 	return nil
 }
 

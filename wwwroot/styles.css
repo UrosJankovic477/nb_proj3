@@ -1,0 +1,238 @@
+@font-face {
+    font-family: 'Rhumba';
+    src: url('/fonts/rhumbascript.regular.ttf');
+  }
+
+
+
+div.albumDisplayBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  
+}
+
+h1.formTitle {
+    font-family: Rhumba;
+    font-size:4em;
+    user-select: none;
+}
+
+html,body {
+    height: 100%;
+}
+
+body {
+    background-color: aliceblue;
+    margin: 0;
+}
+
+
+div.formDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    filter: drop-shadow(0 -1mm 4mm rgb(0,0,0))
+}
+
+div.formBox {
+    min-width: 25%;
+    background-color: aliceblue;
+    border-radius: 3px;
+}
+
+div.errordiv {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-width: 1fr;
+    background-color: lightcoral;
+    border-radius: 3px;
+    border:solid 1px black;
+    animation: fadein 0.5s ;
+}
+
+div.formelementdiv {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.albumDiv {
+    display: flex;
+    flex-direction: column;
+    max-width: 15%;
+    max-height: 15%;
+    padding-right: 2%;
+   
+}
+
+div.basicAlbumInfo {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    max-height: 75%;
+    padding-top: 10%;
+   
+}
+
+div.hovershadow:hover {
+    filter: drop-shadow(0 -1mm 4mm rgb(0,0,0))
+   
+}
+
+
+div.albumInfo > a {
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+    color:inherit
+}
+
+.undecorated {
+    text-decoration: none;
+    color:inherit;
+}
+
+div.albumInfo > p {
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+    color:inherit;
+    font-weight: bold;
+}
+
+div.songDiv {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+div.songDiv > p {
+    font-family: sans-serif;
+    font-size: 1.2rem;
+    min-height: 100%;
+    min-width: 20%;
+}
+div.albumBackground {
+    position:fixed;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: -1;
+}
+
+div#albumView {
+    
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+div.smallerDiv {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 25%;
+    max-width: 25%;;
+    min-height: 100%;
+    background-color: rgba(111, 24, 12, 0.5);
+    backdrop-filter: opacity(80%);
+}
+
+div.biggerDiv {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    min-width: 75%;
+    max-width: 75%;
+    min-height: 100%;
+}
+
+
+
+
+a.albumname {
+    font-weight: bold;
+}
+p.textbutton {
+    user-select: none;
+    cursor:pointer;
+}
+
+  @keyframes fadein {
+    from { opacity: 0}
+    to   { opacity: 1}
+  }
+
+ div.navbar > a {
+    font-size: 2rem;
+    font-family: sans-serif;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: black ;
+    color:white;
+    text-align: center;
+    transition: background-color 0.5s;
+ }
+ div.navbar > a:hover {
+    background-color: white;
+    color:black
+ }
+  div.navbar {
+    display: flex;
+    flex-direction: row-reverse;
+
+    background-color:rgba(0,0,0,0.8);
+    backdrop-filter: blur(3px);
+    min-width: 100%;
+    min-height: 10%;
+    max-height: 10%;
+  }
+
+  div.storeView {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  div.storeView > div.smallerDiv {
+    background-color:rgba(0,0,0,0.8);
+    backdrop-filter: blur(3px);
+    color: aliceblue;
+  }
+
+  div.minmaxdiv {
+    display: flex;
+    flex-direction: row;
+}
+
+button.addButton {
+    min-width: 15%;
+    max-width: 15%;
+    min-height: 75%;
+    max-height: 75%;
+    font-size: large;
+}
+
+div.tabSelect {
+    min-width: 100%;
+    min-height: 10%;
+    max-height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

@@ -32,17 +32,17 @@ func GenerateToken(username string) Token {
 func GetUser(token string) (apitypes.User, int, error) {
 	db := connection.GetDatabase()
 	var found_token Token
-	result := db.Collection("tokens").FindOne(context.TODO(), bson.D{{"Token", token}})
+	result := db.Collection("tokens").FindOne(context.TODO(), bson.D{{"token", token}})
 	err := result.Decode(&found_token)
 	if err != nil {
 		return apitypes.User{}, http.StatusInternalServerError, err
 	}
 	if found_token.Expires < time.Now().Unix() {
-		db.Collection("tokens").DeleteOne(context.TODO(), bson.D{{"Token", token}})
+		db.Collection("tokens").DeleteOne(context.TODO(), bson.D{{"token", token}})
 		return apitypes.User{}, http.StatusUnauthorized, errors.New("Session expired. Please loggin again.")
 	}
 	var user apitypes.User
-	result = db.Collection("users").FindOne(context.TODO(), bson.D{{"Username", found_token.Username}})
+	result = db.Collection("users").FindOne(context.TODO(), bson.D{{"_id", found_token.Username}})
 	err = result.Decode(&user)
 	if err != nil {
 		return apitypes.User{}, http.StatusInternalServerError, err

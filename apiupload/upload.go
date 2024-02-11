@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"nb_proj3/connection"
+	"nb_proj3/makepreview"
 	"net/http"
 	"strings"
 
@@ -12,12 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func generatePreview(data []byte) ([]byte, uint8) {
-	//TODO: implementirati f-ju koja generise preview
-	return data, 30
-}
-
-func UploadAudio(flie_path string, data []byte) (uint8, error) {
+func UploadAudio(flie_path string, data []byte) (uint16, error) {
 	content_type := http.DetectContentType(data)
 	if !strings.HasPrefix(content_type, "audio/mpeg") {
 		return 0, errors.New("invalid content type")
@@ -36,7 +32,10 @@ func UploadAudio(flie_path string, data []byte) (uint8, error) {
 	if err != nil {
 		return 0, err
 	}
-	preview, length := generatePreview(data)
+	preview, length, err := makepreview.ProcessSong(data)
+	if err != nil {
+		return 0, err
+	}
 	reader = bytes.NewReader(preview)
 	uploadOpts = options.GridFSUpload().SetMetadata(bson.D{{"type", "preview"}})
 	_, err = bucket.UploadFromStream("pre_"+flie_path, reader, uploadOpts)
@@ -46,7 +45,7 @@ func UploadAudio(flie_path string, data []byte) (uint8, error) {
 	return length, nil
 }
 
-func UploadImage(token string, album_uuid string, data []byte) error {
+func UploadImage(album_uuid string, data []byte) error {
 	content_type := http.DetectContentType(data)
 	if !strings.HasPrefix(content_type, "image/") {
 		return errors.New("invalid content type")

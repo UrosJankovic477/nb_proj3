@@ -14,7 +14,8 @@ func DeleteImage(content_id string) error {
 	if err != nil {
 		panic(err)
 	}
-	err = bucket.Delete(content_id)
+	id := findByFilename(content_id, "images")
+	err = bucket.Delete(id)
 	return err
 }
 
@@ -25,6 +26,7 @@ func DeleteAudio(content_id string) error {
 	if err != nil {
 		panic(err)
 	}
-	err = bucket.Delete(content_id)
+	id := findByFilename(content_id, "audio")
+	err = bucket.Delete(id)
 	return err
 }

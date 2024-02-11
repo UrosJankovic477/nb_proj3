@@ -5,7 +5,6 @@ go 1.21.5
 require (
 	github.com/alexedwards/argon2id v1.0.0
 	github.com/google/uuid v1.6.0
-	github.com/matoous/go-nanoid/v2 v2.0.0
 	go.mongodb.org/mongo-driver v1.13.1
 )
 
@@ -13,6 +12,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
+	github.com/tcolgate/mp3 v0.0.0-20170426193717-e79c5a46d300
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
